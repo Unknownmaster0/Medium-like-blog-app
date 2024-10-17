@@ -29,11 +29,9 @@ export const authMiddleware = createMiddleware(async (c, next) => {
   }
 });
 
-import { blogZodSchemaInput } from "../zod.schema/blog.schema";
+import { blogZodSchemaInput } from "@try-singh/medium-blog-common";
 import { validator } from "hono/validator";
 import { getPrisma } from "../db";
-
-app.use("/*", authMiddleware);
 
 // this is the first otherwise, then /:id and /bulk will become same.`
 app.get("/bulk", async (c) => {
@@ -77,6 +75,7 @@ app.post(
     }
     return parsed.data;
   }),
+  authMiddleware,
   async (c) => {
     const userId = c.var.id; // you can also access this by the c.get(id)
     const prisma = getPrisma(c.env.DATABASE_URL);
@@ -99,9 +98,10 @@ app.post(
 );
 
 // here you will get the post id in the body in json format.
-import { blogZodSchemaUpdate } from "../zod.schema/blog.schema";
+import { blogZodSchemaUpdate, blogUpdate } from "@try-singh/medium-blog-common";
 app.put(
   "/",
+  authMiddleware,
   validator("json", (value, c) => {
     const parsed = blogZodSchemaUpdate.safeParse(value);
     if (!parsed.success) {
@@ -114,9 +114,7 @@ app.put(
     const { id: postId, title, content } = c.req.valid("json");
     const prisma = getPrisma(c.env.DATABASE_URL);
     try {
-      type blogType = z.infer<typeof blogZodSchemaUpdate>;
-      type updateDataProps = Pick<blogType, "title" | "content">;
-
+      type updateDataProps = Pick<blogUpdate, "title" | "content">;
       const updateData: updateDataProps = {};
       if (title) updateData.title = title;
       if (content) updateData.content = content;

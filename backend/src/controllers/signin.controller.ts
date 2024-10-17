@@ -3,7 +3,7 @@ import { validator } from "hono/validator";
 import { getPrisma } from "../db";
 import { customResponse } from "../utils/customResponse";
 import { sign } from "hono/jwt";
-import { signinZodSchema } from "../zod.schema/signin.schema";
+import { signinZodSchema } from "@try-singh/medium-blog-common";
 
 const app = new Hono<{
   Bindings: {
