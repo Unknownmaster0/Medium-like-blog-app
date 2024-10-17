@@ -35,6 +35,19 @@ import { getPrisma } from "../db";
 
 app.use("/*", authMiddleware);
 
+// this is the first otherwise, then /:id and /bulk will become same.`
+app.get("/bulk", async (c) => {
+  const prisma = getPrisma(c.env.DATABASE_URL);
+  try {
+    const blogs = await prisma.post.findMany(); // to find all the posts.
+    return customResponse(c, 200, "Post send successfully", blogs);
+  } catch (error) {
+    return customResponse(c, 404, "Not found any blogs", {
+      error: String(error),
+    });
+  }
+});
+
 app.get("/:id", async (c) => {
   const userId = c.get("id");
   const postId = c.req.param("id");
