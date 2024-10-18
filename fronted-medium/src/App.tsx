@@ -1,18 +1,24 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
-import { HeaderComponent } from "./Components/Header";
+import { Signup } from "./Pages/signup.page";
+import { Signin } from "./Pages/signin.page";
 
 function App() {
   return (
     <BrowserRouter>
-      {/* <Mainroutes /> */}
-      <HeaderComponent text="Create your account" />
+      <Mainroutes />
     </BrowserRouter>
   );
 }
 
 function Mainroutes() {
-  return <Routes>{/* <Route path="/" element={}></Route> */}</Routes>;
+  return (
+    <Routes>
+      <Route path="/" element={<Signup />}></Route>
+      <Route path="/signup" element={<Signup />}></Route>
+      <Route path="/signin" element={<Signin />}></Route>
+    </Routes>
+  );
 }
 
 export default App;
