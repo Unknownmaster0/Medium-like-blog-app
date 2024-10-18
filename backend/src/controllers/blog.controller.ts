@@ -1,5 +1,4 @@
 import { Hono } from "hono";
-import { z } from "zod";
 
 const app = new Hono<{
   Bindings: {
@@ -37,7 +36,11 @@ import { getPrisma } from "../db";
 app.get("/bulk", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   try {
-    const blogs = await prisma.post.findMany(); // to find all the posts.
+    const blogs = await prisma.post.findMany({
+      include: {
+        author: true,
+      },
+    }); // to find all the posts.
     return customResponse(c, 200, "Post send successfully", blogs);
   } catch (error) {
     return customResponse(c, 404, "Not found any blogs", {
@@ -80,12 +83,17 @@ app.post(
     const userId = c.var.id; // you can also access this by the c.get(id)
     const prisma = getPrisma(c.env.DATABASE_URL);
     const { title, content } = c.req.valid("json");
+    const currTime = new Date();
+    const date = `${currTime.getDate()}-${
+      currTime.getMonth() + 1
+    }-${currTime.getFullYear()}`;
     try {
       const blogPost = await prisma.post.create({
         data: {
           title,
           content,
           author_id: userId,
+          createdAt: date,
         },
       });
       return customResponse(c, 200, "post created successfully", blogPost);

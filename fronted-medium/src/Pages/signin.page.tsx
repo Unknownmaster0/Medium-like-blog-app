@@ -6,8 +6,11 @@ import { BottomPageLinkComponent } from "../Components/Bottom.page.link";
 import { ChangeEvent, useState } from "react";
 import { signin } from "@try-singh/medium-blog-common";
 import axios, { AxiosError } from "axios";
+import { BACKEND_URL } from "../config";
+import { useNavigate } from "react-router-dom";
 
 export const Signin = () => {
+  const navigate = useNavigate();
   const [userInput, setUserInput] = useState<signin>({
     email: "",
     password: "",
@@ -18,7 +21,7 @@ export const Signin = () => {
     }
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8787/api/v1/signin",
+        `${BACKEND_URL}/signin`,
         {
           email: userInput.email,
           password: userInput.password,
@@ -38,6 +41,7 @@ export const Signin = () => {
 
       const token = result.data.token;
       localStorage.setItem("token", token);
+      navigate("/blogs");
     } catch (error) {
       if (error instanceof AxiosError) {
         return alert(`${error.response?.data?.message}`);

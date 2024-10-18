@@ -7,8 +7,11 @@ import { Quote } from "../Components/Quote";
 import { ChangeEvent, useState } from "react";
 import { signup } from "@try-singh/medium-blog-common";
 import axios, { AxiosError } from "axios";
+import { BACKEND_URL } from "../config";
+import { useNavigate } from "react-router-dom";
 
 export const Signup = () => {
+  const navigate = useNavigate();
   const [userInput, setUserInput] = useState<signup>({
     email: "",
     password: "",
@@ -29,7 +32,7 @@ export const Signup = () => {
     }
     try {
       const response = await axios.post(
-        "http://127.0.0.1:8787/api/v1/signup",
+        `${BACKEND_URL}/signup`,
         {
           email: userInput.email,
           password: userInput.password,
@@ -48,6 +51,7 @@ export const Signup = () => {
       }
       const token = data.data.token;
       localStorage.setItem("token", token);
+      navigate("/blogs");
     } catch (error) {
       if (error instanceof AxiosError) {
         return alert(`${error.response?.data?.message}`);

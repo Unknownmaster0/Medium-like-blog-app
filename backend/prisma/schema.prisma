@@ -20,6 +20,7 @@ model Post{
   title String
   content String
   published Boolean @default(false)
+  createdAt String?
   author_id String
   author User @relation(fields: [author_id], references: [id])
 }
