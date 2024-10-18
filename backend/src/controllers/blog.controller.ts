@@ -37,8 +37,16 @@ app.get("/bulk", async (c) => {
   const prisma = getPrisma(c.env.DATABASE_URL);
   try {
     const blogs = await prisma.post.findMany({
-      include: {
-        author: true,
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        createdAt: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
       },
     }); // to find all the posts.
     return customResponse(c, 200, "Post send successfully", blogs);
@@ -58,6 +66,17 @@ app.get("/:id", async (c) => {
       where: {
         id: postId,
         author_id: userId,
+      },
+      select: {
+        id: true,
+        title: true,
+        content: true,
+        createdAt: true,
+        author: {
+          select: {
+            name: true,
+          },
+        },
       },
     });
     if (!post) {

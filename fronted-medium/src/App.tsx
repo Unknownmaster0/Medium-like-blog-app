@@ -3,6 +3,7 @@ import "./App.css";
 import { Signup } from "./Pages/signup.page";
 import { Signin } from "./Pages/signin.page";
 import { BlogPage } from "./Pages/blog.page";
+import { BlogDetail } from "./Pages/blog.in.detail";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function Mainroutes() {
       <Route path="/signup" element={<Signup />}></Route>
       <Route path="/signin" element={<Signin />}></Route>
       <Route path="/blogs" element={<BlogPage />}></Route>
+      <Route path="/blog/:id" element={<BlogDetail />}></Route>
     </Routes>
   );
 }

@@ -5,7 +5,7 @@ export const ButtonComponent = ({
   onclick,
 }: {
   text: string;
-  onclick: MouseEventHandler<HTMLButtonElement>;
+  onclick?: MouseEventHandler<HTMLButtonElement>;
 }) => {
   return (
     <button
