@@ -17,7 +17,7 @@ export const BlogDetail = () => {
 
   return (
     <div>
-      <NavBar />
+      <NavBar input={false}/>
       <div className="sm:p-4 p-2 flex justify-center items-center w-screen">
         <div className="sm:w-1/2">
           {blog && (

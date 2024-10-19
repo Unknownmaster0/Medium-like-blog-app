@@ -5,9 +5,10 @@ import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
 interface props {
   type?: string;
   name?: string;
+  input?: boolean;
 }
 
-export const NavBar = ({ type, name }: props) => {
+export const NavBar = ({ type, name, input=true }: props) => {
   return (
     <div className="flex items-center justify-between">
       {/* adding the logo */}
@@ -22,13 +23,13 @@ export const NavBar = ({ type, name }: props) => {
       ></div>
 
       {/* adding search bar */}
-      <div>
+     {input && <div>
         <input
           type="text"
           placeholder="search"
           className="bg-zinc-200 md:w-80 h-8 pl-2 rounded-md focus:outline-1 focus:outline-slate-700"
         />
-      </div>
+      </div>}
 
       {/* adding icons and some user */}
       <div className="flex space-x-8 sm:w-52">

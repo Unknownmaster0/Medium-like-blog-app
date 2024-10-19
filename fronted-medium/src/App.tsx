@@ -4,6 +4,7 @@ import { Signup } from "./Pages/signup.page";
 import { Signin } from "./Pages/signin.page";
 import { BlogPage } from "./Pages/blog.page";
 import { BlogDetail } from "./Pages/blog.in.detail";
+import { PostBlog } from "./Pages/add.blog.page";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function Mainroutes() {
       <Route path="/signin" element={<Signin />}></Route>
       <Route path="/blogs" element={<BlogPage />}></Route>
       <Route path="/blog/:id" element={<BlogDetail />}></Route>
+      <Route path="/addblog" element={<PostBlog />}></Route>
     </Routes>
   );
 }
